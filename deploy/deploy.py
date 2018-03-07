@@ -15,9 +15,8 @@ class Deploy(object):
         self._bundle = None
         self._bundle_dir = os.path.join(os.path.expanduser('~'),
                                         ".deploy")
-        self._extract_dir = os.path.join(self._bundle_dir, str(time.time()))
-        if not os.path.isdir(self._extract_dir):
-            os.makedirs(self._extract_dir)
+        if not os.path.isdir(self._bundle_dir):
+            os.makedirs(self._bundle_dir)
         self._workdir = None
 
     def deploy(self, bundle):
@@ -66,11 +65,6 @@ class Deploy(object):
                 zf.write(f.read())
         else:
             self._bundle = bundle
-
-    def extract(self):
-        with zipfile.ZipFile(self._bundle, "r") as zf:
-            for f in zf.namelist():
-                zf.extract(f, self._extract_dir)
 
     def install(self, files):
         if files is None:
