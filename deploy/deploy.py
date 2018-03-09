@@ -7,11 +7,20 @@ import shutil
 import urllib2
 import subprocess
 import zipfile
+import logging
 
 import yaml
 
 class Deploy(object):
     def __init__(self):
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.setLevel(logging.DEBUG)
+        formatter = logging.Formatter("[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s")
+        sh = logging.StreamHandler()
+        sh.setFormatter(formatter)
+        sh.setLevel(logging.DEBUG)
+        self.logger.addHandler(sh)
+
         self._bundle = None
         self._bundle_dir = os.path.join(os.path.expanduser('~'),
                                         ".deploy")
@@ -38,6 +47,7 @@ class Deploy(object):
         self._exec_hooks("ValidateService", appspec.get("hooks").get("ValidateService"))
 
     def _exec_hooks(self, name, hooks):
+        self.logger.info(name + "...")
         if hooks is None:
             return
         try:
@@ -45,6 +55,7 @@ class Deploy(object):
                 self._run_cmd(hook["location"])
         except Exception as err:
             raise Exception("run " + name + " hooks error: " + repr(err))
+        self.logger.info("OK.")
 
     def _run_cmd(self, cmd):
         cmd = "cd " + self._workdir + " && " + cmd
@@ -58,6 +69,7 @@ class Deploy(object):
         return rc
 
     def download_bundle(self, bundle):
+        self.logger.info("DownloadBundle...")
         if bundle.startswith("http://"):
             f = urllib2.urlopen(bundle) 
             self._bundle = os.path.join(self._bundle_dir, os.path.basename(bundle))
@@ -65,8 +77,10 @@ class Deploy(object):
                 zf.write(f.read())
         else:
             self._bundle = bundle
+        self.logger.info("OK.")
 
     def install(self, files):
+        self.logger.info("Install...")
         if files is None:
             return
         zf = zipfile.ZipFile(self._bundle, "r")
@@ -82,3 +96,4 @@ class Deploy(object):
                         if f.startswith(source):
                             zf.extract(f, self._workdir)
         zf.close()
+        self.logger.info("OK.")

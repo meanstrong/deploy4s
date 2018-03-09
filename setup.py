@@ -7,7 +7,7 @@ import time
 
 setup(
     name="deploy",
-    version="0.1",
+    version="0.0.1",
     packages=find_packages(exclude=["test*"]),
     # py_modules=["test"],
     # data_files=[(".", ["pip_requirements.txt"])],
