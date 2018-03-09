@@ -1,17 +1,27 @@
 # Deploy - A deploy tool
+
+## About
 参考AWS CodeDeploy的标准部署服务到本地服务器的工具。
 - [AWS CodeDeploy User Guide](https://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/welcome.html)
 
+## Requirements
+- Python
+- PyYAML
+
 ## Install
+Download released package.  
 ```shell
-$ python setup.py install
+pip install deploy-0.0.1.zip
 ```
 
 ## Usage
 ```shell
-$ deploycli --bundle=example.zip
+deploycli --bundle=example.zip
 ```
 --bundle参数指定zip包的路径，可以是本地文件路径也可以是HTTP地址。
+
+## Release
+- [deploy-0.0.1.zip](dist/deploy-0.0.1.zip)
 
 ## Limit
 与标准的AWS CodeDeploy相比，appspec.yml文件需要新增一个workdir参数，用于指定hooks中命令的执行CWD，其他参数配置可参考AWS CodeDeploy。
@@ -27,7 +37,7 @@ files:
     destination: /app
 hooks:
   ApplicationStart:
-    - location: bin/startup.sh
+    - location: bin/start.sh
   ApplicationStop:
     - location: bin/stop.sh
   BeforeInstall:
@@ -40,3 +50,6 @@ hooks:
 ```shell
 $ deploycli --bundle=http://127.0.0.1/example.zip
 ```
+
+## Author
+- <a href="mailto:pmq2008@gmail.com">Rocky Peng</a>
