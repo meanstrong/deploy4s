@@ -2,8 +2,6 @@
 #-*- coding:utf-8 -*-
 
 import os
-import time
-import shutil
 import urllib2
 import subprocess
 import zipfile
@@ -22,8 +20,7 @@ class Deploy(object):
         self.logger.addHandler(sh)
 
         self._bundle = None
-        self._bundle_dir = os.path.join(os.path.expanduser('~'),
-                                        ".deploy")
+        self._bundle_dir = os.path.join(os.path.expanduser('~'), ".deploy")
         if not os.path.isdir(self._bundle_dir):
             os.makedirs(self._bundle_dir)
         self._workdir = None
@@ -37,7 +34,9 @@ class Deploy(object):
             raise Exception("Not found file appspec.yml in bundle.")
 
             
-        self._workdir = appspec.get("workdir") or ""
+        self._workdir = appspec.get("workdir") or os.path.expanduser('~')
+        if not os.path.isdir(self._workdir):
+            os.makedirs(self._workdir)
 
         self._exec_hooks("ApplicationStop", appspec.get("hooks").get("ApplicationStop"))
         self._exec_hooks("BeforeInstall", appspec.get("hooks").get("BeforeInstall"))
