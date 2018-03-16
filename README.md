@@ -18,6 +18,7 @@ pip install deploy-0.0.1.zip
 ```shell
 deploycli --bundle=example.zip
 ```
+使用--help查看更多使用帮助。  
 --bundle参数指定zip包的路径，可以是本地文件路径也可以是HTTP地址。
 
 ## Release
