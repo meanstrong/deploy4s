@@ -22,7 +22,7 @@ deploycli --bundle=example.zip
 --bundle参数指定zip包的路径，可以是本地文件路径也可以是HTTP地址。
 
 ## Release
-- [deploy-0.0.1.zip](dist/deploy-0.0.1.zip)
+- [deploy-0.0.1.zip](https://github.com/meanstrong/deploy/releases)
 
 ## Limit
 与标准的AWS CodeDeploy相比，appspec.yml文件需要新增一个workdir参数，用于指定hooks中命令的执行CWD，其他参数配置可参考AWS CodeDeploy。
