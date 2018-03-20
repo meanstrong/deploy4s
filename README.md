@@ -12,9 +12,13 @@
 - PyYAML
 
 ## Install
-下载最新的Release包，通过pip命令安装。
+下载最新的Release包，通过pip命令安装：
 ```shell
 pip install deploy-0.0.1.zip
+```
+或者通过下载源码包或clone代码至本地，然后通过如下命令安装：
+```shell
+python setup.py install
 ```
 
 ## Usage
@@ -28,7 +32,7 @@ deploycli --bundle=http://server/example.zip
 - [deploy-0.0.1.zip](https://github.com/meanstrong/deploy/releases/download/v0.0.1/deploy-0.0.1.zip)
 
 ## Limit
-与标准的AWS CodeDeploy相比，appspec.yml文件需要新增一个*<u>workdir</u>*参数，用于指定hooks中命令的执行CWD，其他参数配置可参考AWS CodeDeploy。
+与标准的AWS CodeDeploy相比，appspec.yml文件需要新增一个``workdir``参数，用于指定hooks中命令的执行CWD，其他参数配置可参考AWS CodeDeploy。
 
 ## Example
 一个示例的appspec.yml文件如下所示：
