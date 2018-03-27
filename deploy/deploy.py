@@ -23,7 +23,7 @@ class Deploy(object):
         self._bundle_dir = os.path.join(os.path.expanduser('~'), ".deploy")
         if not os.path.isdir(self._bundle_dir):
             os.makedirs(self._bundle_dir)
-        self._workdir = None
+        self._workdir = os.path.expanduser('~')
 
     def deploy(self, bundle):
         self.download_bundle(bundle)
@@ -33,8 +33,9 @@ class Deploy(object):
         except:
             raise Exception("Not found file appspec.yml in bundle.")
 
-            
-        self._workdir = appspec.get("workdir") or os.path.expanduser('~')
+        workdir = appspec.get("workdir")
+        if workdir is not None:
+            self._workdir = workdir
         if not os.path.isdir(self._workdir):
             os.makedirs(self._workdir)
 
@@ -57,8 +58,7 @@ class Deploy(object):
         self.logger.info("OK.")
 
     def _run_cmd(self, cmd):
-        cmd = "cd " + self._workdir + " && " + cmd
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=self._workdir)
         stdout, stderr = process.communicate()
         stdout = stdout.decode("utf-8")
         stderr = stderr.decode("utf-8")
