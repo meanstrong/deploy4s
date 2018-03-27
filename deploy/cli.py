@@ -16,12 +16,8 @@ def main():
     if bundle is None:
         print_help()
         sys.exit(1)
-    try:
-        deploy = Deploy()
-        deploy.deploy(bundle)
-    except Exception as err:
-        traceback.print_exc()
-        sys.exit(1)
+
+    Deploy().deploy(bundle)
 
 def print_help():
     msg = '''
