@@ -1,4 +1,4 @@
-# Deploy - A deploy tool
+# Deploy4s - A deploy tool for simple, standard, stable and stupid
 
 ## About
 受启发于AWS CodeDeploy的自动化部署服务，抽取其中标准化部署功能实现的一个本地部署组件。[AWS CodeDeploy User Guide](https://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/welcome.html)
