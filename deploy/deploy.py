@@ -23,9 +23,10 @@ class Deploy(object):
         self._bundle_dir = os.path.join(os.path.expanduser('~'), ".deploy")
         if not os.path.isdir(self._bundle_dir):
             os.makedirs(self._bundle_dir)
-        self._workdir = os.path.expanduser('~')
+        self._workdir = "."
 
     def deploy(self, bundle):
+        self.logger.info("DownloadBundle...")
         self.download_bundle(bundle)
         try:
             with zipfile.ZipFile(self._bundle, "r") as zf:
@@ -39,36 +40,48 @@ class Deploy(object):
         if not os.path.isdir(self._workdir):
             os.makedirs(self._workdir)
 
-        self._exec_hooks("ApplicationStop", appspec.get("hooks").get("ApplicationStop"))
-        self._exec_hooks("BeforeInstall", appspec.get("hooks").get("BeforeInstall"))
-        self.install(appspec.get("files"))
-        self._exec_hooks("AfterInstall", appspec.get("hooks").get("AfterInstall"))
-        self._exec_hooks("ApplicationStart", appspec.get("hooks").get("ApplicationStart"))
-        self._exec_hooks("ValidateService", appspec.get("hooks").get("ValidateService"))
+        self.logger.info("RUN ApplicationStop...")
+        self._exec_hooks(appspec.get("hooks").get("ApplicationStop"))
 
-    def _exec_hooks(self, name, hooks):
-        self.logger.info(name + "...")
+        self.logger.info("RUN BeforeInstall...")
+        self._exec_hooks(appspec.get("hooks").get("BeforeInstall"))
+
+        self.logger.info("RUN Install...")
+        self.install(appspec.get("files"))
+
+        self.logger.info("RUN AfterInstall...")
+        self._exec_hooks(appspec.get("hooks").get("AfterInstall"))
+
+        self.logger.info("RUN ApplicationStart...")
+        self._exec_hooks(appspec.get("hooks").get("ApplicationStart"))
+
+        self.logger.info("RUN ValidateService...")
+        self._exec_hooks(appspec.get("hooks").get("ValidateService"))
+
+        self.logger.info("Deploy OK.")
+
+    def _exec_hooks(self, hooks):
         if hooks is None:
             return
         try:
             for hook in hooks:
                 self._run_cmd(hook["location"])
         except Exception as err:
-            raise Exception("run " + name + " hooks error: " + repr(err))
-        self.logger.info("OK.")
+            raise Exception("run cmd error: " + repr(err))
 
     def _run_cmd(self, cmd):
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=self._workdir)
-        stdout, stderr = process.communicate()
-        stdout = stdout.decode("utf-8")
-        stderr = stderr.decode("utf-8")
-        rc = process.poll()
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=self._workdir)
+        while p.poll() is None:
+            line = p.stdout.readline()
+            self.logger.info(line.strip())
+        rc = p.returncode
         if rc != 0:
-            raise Exception("run cmd error: "+str(rc)+"\n"+stdout+"\n"+stderr)
+            self.logger.warn("rc: " + str(rc))
+            self.logger.warn("stderr: " + p.stderr.read())
+            raise Exception("run cmd error.")
         return rc
 
     def download_bundle(self, bundle):
-        self.logger.info("DownloadBundle...")
         if bundle.startswith("http://"):
             f = urllib2.urlopen(bundle) 
             self._bundle = os.path.join(self._bundle_dir, os.path.basename(bundle))
@@ -76,10 +89,8 @@ class Deploy(object):
                 zf.write(f.read())
         else:
             self._bundle = bundle
-        self.logger.info("OK.")
 
     def install(self, files):
-        self.logger.info("Install...")
         if files is None:
             return
         zf = zipfile.ZipFile(self._bundle, "r")
@@ -95,4 +106,3 @@ class Deploy(object):
                         if f.startswith(source):
                             zf.extract(f, self._workdir)
         zf.close()
-        self.logger.info("OK.")
