@@ -1,7 +1,7 @@
 # Deploy - A deploy tool
 
 ## About
-参考AWS CodeDeploy的自动化部署服务，抽取其中标准化本地部署功能的一个组件。[AWS CodeDeploy User Guide](https://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/welcome.html)
+受启发于AWS CodeDeploy的自动化部署服务，抽取其中标准化部署功能实现的一个本地部署组件。[AWS CodeDeploy User Guide](https://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/welcome.html)
 - Deploy是一个自动化部署组件，能够让用户方便快速地将应用自动部署到目标机器上。通过部署流程的标准化和自动化，加快部署的速度，控制部署节奏，降低应用升级更新的复杂度，减少手工部署操作的错误和风险。最终使得用户能够在快速地发布新特性的同时保证部署的质量，避免部署过程中的服务中断。   
 - 传统应用代码和部署脚本是分离的，基于很多不同的部署工具开发，如Chef，Puppet，Ansible，或者开发人员自己写的Shell，Python部署脚本。随着DevOps理念的兴起，消除Dev和Ops之间的鸿沟，系统的开发和运维由一个自治团队全权负责，所以将代码与部署放在一起就非常自然，统一Dev和Ops的目标和部署。另外，将应用代码与部署脚本一体化，也简化了代码和部署脚本的管理，避免代码版本与部署脚本版本需要对应的问题。其实，这种设计也简化了用户的使用过程，不需要额外再做部署脚本版本的管理了。   
 - Deploy定义了一个基于事件部署流程接口，在接口定义中，定义多个部署文件拷贝源目标部署映射(files->source->destination)，以及部署中各个步骤及步骤之间的执行顺序(ApplicationStop->BeforeInstall->Install->AfterInstall->ApplicationStart-> ValidateService)，各个步骤要执行的脚本。   
