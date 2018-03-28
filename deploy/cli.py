@@ -12,6 +12,9 @@ def main():
     for arg in sys.argv:
         if arg.startswith("--bundle="):
             bundle = arg.split("=", 1)[1]
+        elif arg == "-h" or arg == "--help":
+            print_help()
+            return
 
     if bundle is None:
         print_help()
