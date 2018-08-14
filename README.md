@@ -14,7 +14,7 @@
 ## Install
 下载最新的Release包，通过pip命令安装：
 ```shell
-pip install deploy-0.0.1.zip
+pip install deploy4s
 ```
 或者通过下载源码包或clone代码至本地，然后通过如下命令安装：
 ```shell
