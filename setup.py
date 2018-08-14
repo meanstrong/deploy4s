@@ -2,11 +2,15 @@
 #-*- coding:utf-8 -*-
 
 from setuptools import setup, find_packages
-import deploy
-import time
+
+with open("README.md") as f:
+    readme = f.read()
+
+with open("LICENSE") as f:
+    license = f.read()
 
 setup(
-    name="deploy",
+    name="deploy4s",
     version="0.0.1",
     packages=find_packages(exclude=["test*"]),
     # py_modules=["test"],
@@ -14,16 +18,19 @@ setup(
     install_requires=["PyYAML"],
     zip_safe=False,
 
+    url="https://github.com/meanstrong/deploy4s",
+    license=license,
     description="A deploy tools for CodeDeploy",
+    long_description=readme,
     author="pengmingqiang",
-    author_email="pmq2008@gmail.com",
+    author_email="rockypengchina@outlook.com",
+    maintainer="pengmingqiang",
+    maintainer_email="rockypengchina@outlook.com",
+    platforms=['any'],
 
-    license="GPL",
-    platforms="Independant",
-    url="",
     entry_points={
         'console_scripts': [
-            'deploycli = deploy.cli:main',
+            'deploycli = deploy4s.cli:main',
         ]
     },
 )

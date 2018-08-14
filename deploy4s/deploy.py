@@ -28,11 +28,9 @@ class Deploy(object):
     def deploy(self, bundle):
         self.logger.info("DownloadBundle...")
         self.download_bundle(bundle)
-        try:
-            with zipfile.ZipFile(self._bundle, "r") as zf:
-                appspec = yaml.load(zf.read("appspec.yml"))
-        except:
-            raise Exception("Not found file appspec.yml in bundle.")
+        zf = zipfile.ZipFile(self._bundle, "r")
+        appspec = yaml.load(zf.read("appspec.yml"))
+        zf.close()
 
         workdir = appspec.get("workdir")
         if workdir is not None:
@@ -99,10 +97,11 @@ class Deploy(object):
             destination = entry["destination"]
             if source == "/":
                 zf.extractall(self._workdir)
-            else:
+            elif source in zf.namelist():
                 zf.extract(source, self._workdir)
-                if os.path.isdir(os.path.join(self._workdir, source)):
-                    for f in zf.namelist():
-                        if f.startswith(source):
-                            zf.extract(f, self._workdir)
+            else:
+                source = source.endswith("/") and source or source+"/"
+                for f in zf.namelist():
+                    if f.startswith(source):
+                        zf.extract(f, self._workdir)
         zf.close()

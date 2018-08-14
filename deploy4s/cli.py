@@ -24,7 +24,7 @@ def main():
 
 def print_help():
     msg = '''
-    Usage: deploy --bundle=example.zip
+    Usage: deploycli --bundle=example.zip
     Options:
         --bundle    The deploy archive file path, it can be local file path or
                     internet path.
