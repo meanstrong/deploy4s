@@ -11,10 +11,8 @@ with open("LICENSE") as f:
 
 setup(
     name="deploy4s",
-    version="0.0.1",
+    version="1.0.0",
     packages=find_packages(exclude=["test*"]),
-    # py_modules=["test"],
-    # data_files=[(".", ["pip_requirements.txt"])],
     install_requires=["PyYAML"],
     zip_safe=False,
 
