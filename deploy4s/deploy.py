@@ -2,10 +2,12 @@
 #-*- coding:utf-8 -*-
 
 import os
-import urllib2
+import urllib.request
 import subprocess
 import zipfile
 import logging
+import locale
+cmdencoding = locale.getdefaultlocale()[1]
 
 import yaml
 
@@ -71,17 +73,17 @@ class Deploy(object):
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=self._workdir)
         while p.poll() is None:
             line = p.stdout.readline()
-            self.logger.info(line.strip())
+            self.logger.info(line.strip().decode(cmdencoding))
         rc = p.returncode
         if rc != 0:
-            self.logger.warn("rc: " + str(rc))
-            self.logger.warn("stderr: " + p.stderr.read())
+            self.logger.warn("rc: %d" % rc)
+            self.logger.warn("stderr: %s" + p.stderr.read().decode(cmdencoding))
             raise Exception("run cmd error.")
         return rc
 
     def download_bundle(self, bundle):
         if bundle.startswith("http://"):
-            f = urllib2.urlopen(bundle) 
+            f = urllib.request.urlopen(bundle) 
             self._bundle = os.path.join(self._bundle_dir, os.path.basename(bundle))
             with open(self._bundle, "wb") as zf:     
                 zf.write(f.read())

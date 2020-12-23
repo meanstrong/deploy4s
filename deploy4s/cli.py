@@ -4,7 +4,7 @@
 import sys
 import traceback
 
-from deploy import Deploy
+from .deploy import Deploy
 
 
 def main():

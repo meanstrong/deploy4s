@@ -1,4 +1,4 @@
-# Deploy4s - A deploy tool for simple, standard, stable and stupid
+# Deploy4s - A deploy tool for simple, standard, stable and Speed
 
 ## About
 受启发于AWS CodeDeploy的自动化部署服务，抽取其中标准化部署功能实现的一个本地部署组件。[AWS CodeDeploy User Guide](https://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/welcome.html)
@@ -8,7 +8,7 @@
 - Deploy仅处理代码部署问题，并不处理应用配置管理，资源管理，环境管理以及之后的监控和恢复，伸缩等环节，用户想要实现系统的持续自动化部署，仍然需要自行集成开发，比如需要自行实现应用新版本的打包和上传，之后通过Deploy提供的相应API接口以及CLI将其集成到自己的开发流程，实现持续交付。   
 
 ## Requirements
-- Python
+- Python3
 - PyYAML
 
 ## Install
@@ -58,6 +58,12 @@ hooks:
 ```shell
 deploycli --bundle=http://server/example.zip
 ```
+
+## Release History
+### 1.0.1(2019-05-07)
+- support for python3
+### 1.0.0(2018-09-22)
+- Birth
 
 ## Author
 - <a href="mailto:pmq2008@gmail.com">Rocky Peng</a>
