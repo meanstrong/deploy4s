@@ -1,5 +1,8 @@
 # Deploy4s - A deploy tool for simple, standard, stable and Speed
 
+[![image](https://img.shields.io/pypi/v/deploy4s.svg)](https://pypi.org/project/deploy4s/)
+[![image](https://img.shields.io/pypi/l/deploy4s.svg)](https://pypi.org/project/deploy4s/)
+
 ## About
 受启发于AWS CodeDeploy的自动化部署服务，抽取其中标准化部署功能实现的一个本地部署组件。[AWS CodeDeploy User Guide](https://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/welcome.html)
 - Deploy是一个自动化部署组件，能够让用户方便快速地将应用自动部署到目标机器上。通过部署流程的标准化和自动化，加快部署的速度，控制部署节奏，降低应用升级更新的复杂度，减少手工部署操作的错误和风险。最终使得用户能够在快速地发布新特性的同时保证部署的质量，避免部署过程中的服务中断。   
