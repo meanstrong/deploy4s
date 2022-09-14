@@ -1,5 +1,6 @@
 # Deploy4s - A deploy tool for simple, standard, stable and Speed
 
+![image](https://img.shields.io/badge/made_in-china-ff2121.svg)
 [![image](https://img.shields.io/pypi/v/deploy4s.svg)](https://pypi.org/project/deploy4s/)
 [![image](https://img.shields.io/pypi/l/deploy4s.svg)](https://pypi.org/project/deploy4s/)
 
