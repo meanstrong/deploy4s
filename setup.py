@@ -25,7 +25,7 @@ setup(
     maintainer="pengmingqiang",
     maintainer_email="rockypengchina@outlook.com",
     platforms=['any'],
-    license="GPLv3",
+    license="Apache 2.0",
     entry_points={
         'console_scripts': [
             'deploycli = deploy4s.cli:main',
